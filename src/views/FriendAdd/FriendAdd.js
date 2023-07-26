@@ -1,7 +1,7 @@
-import { subYears } from 'date-fns';
 import { Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
+import { formatDate } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import DatePicker from '../../shared/react-pure/DatePicker';
 import InputField from '../../shared/react-pure/InputField';
@@ -9,13 +9,12 @@ import Spacer from '../../shared/react-pure/Spacer';
 import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
-import { formatDate } from '../../shared/js/date';
 
 function FriendAdd({ isLoading, onCreate, onFetchFriends }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [birthday, setBirthday] = useState(subYears(new Date(), 20));
+  const [birthday, setBirthday] = useState(null);
   const [summary, setSummary] = useState('');
 
   useEffectOnce(() => {
@@ -41,7 +40,13 @@ function FriendAdd({ isLoading, onCreate, onFetchFriends }) {
         <Button
           label="Add friend"
           onClick={() => {
-            onCreate({ name, email, phone, birthday: formatDate(birthday), summary });
+            onCreate({
+              name,
+              email,
+              phone,
+              birthday: birthday ? formatDate(birthday) : null,
+              summary,
+            });
           }}
           disabled={!name || isLoading}
         />

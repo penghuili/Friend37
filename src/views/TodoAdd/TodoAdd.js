@@ -12,7 +12,7 @@ import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 function TodoAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
 
   useEffectOnce(() => {
     onFetchFriends();
@@ -33,7 +33,7 @@ function TodoAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
         <Button
           label="Add todo"
           onClick={() => {
-            onCreate(friendId, { title, note, date });
+            onCreate(friendId, { title, note, date: date ? date.getTime() : null });
           }}
           disabled={!title || isLoading}
         />

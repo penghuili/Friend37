@@ -14,7 +14,7 @@ function Activities({ friendId, activities, hasMore, startKey, onFetch, onDelete
 
   function renderActivities() {
     if (!activities?.length) {
-      return <Text margin="0 0 1rem">No activities.</Text>;
+      return <Text margin="0 0 1rem">No activities</Text>;
     }
 
     return (

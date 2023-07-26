@@ -18,6 +18,7 @@ const mapDispatchToProps = {
   onFetchTodos: friendActionCreators.fetchTodosRequested,
   onFetchDoneTodos: friendActionCreators.fetchDoneTodosRequested,
   onChangeTab: friendActionCreators.setTab,
+  onDeleteFriend: friendActionCreators.deleteFriendPressed,
   onNav: sharedActionCreators.navigate,
   onToast: sharedActionCreators.setToast,
 };

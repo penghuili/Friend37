@@ -15,8 +15,8 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriend
   useListener(todo?.title, value => setTitle(value || ''));
   const [note, setNote] = useState('');
   useListener(todo?.note, value => setNote(value || ''));
-  const [date, setDate] = useState(new Date());
-  useListener(todo?.date, value => setDate(new Date(value || new Date())));
+  const [date, setDate] = useState(null);
+  useListener(todo?.date, value => setDate(value ? new Date(value) : null));
 
   useEffectOnce(() => {
     onFetchFriends();
@@ -38,7 +38,7 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriend
         <Button
           label="Update todo"
           onClick={() => {
-            onUpdate(friendId, todoId, { title, note, date });
+            onUpdate(friendId, todoId, { title, note, date: date ? date.getTime() : null });
           }}
           disabled={!title || isLoading}
         />

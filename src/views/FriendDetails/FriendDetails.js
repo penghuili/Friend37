@@ -1,4 +1,4 @@
-import { Button, Heading, Menu, NameValueList, NameValuePair, Tab, Tabs, Text } from 'grommet';
+import { Heading, Menu, NameValueList, NameValuePair, Tab, Tabs, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React from 'react';
 
@@ -9,12 +9,21 @@ import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import Spacer from '../../shared/react-pure/Spacer';
 import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
-import RouteLink from '../../shared/react/RouteLink';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
+import RouteLink from '../../shared/react/RouteLink';
 import Activities from './components/Activities';
 import Todos from './components/Todos';
 
-function FriendDetails({ friendId, friend, tab, isLoading, onFetchFriends, onChangeTab, onNav }) {
+function FriendDetails({
+  friendId,
+  friend,
+  tab,
+  isLoading,
+  onFetchFriends,
+  onChangeTab,
+  onDeleteFriend,
+  onNav,
+}) {
   useEffectOnce(() => {
     onFetchFriends();
   });
@@ -37,7 +46,7 @@ function FriendDetails({ friendId, friend, tab, isLoading, onFetchFriends, onCha
                   },
                   {
                     label: 'Delete',
-                    onClick: () => {},
+                    onClick: () => onDeleteFriend(friend.sortKey),
                     margin: '0.25rem 0',
                     color: 'status-critical',
                   },
@@ -53,7 +62,9 @@ function FriendDetails({ friendId, friend, tab, isLoading, onFetchFriends, onCha
                 <Text color="text-strong">{friend.phone || 'Empty'}</Text>
               </NameValuePair>
               <NameValuePair name="Birthday">
-                <Text color="text-strong">{formatDate(new Date(friend.birthday))}</Text>
+                <Text color="text-strong">
+                  {friend.birthday ? formatDate(new Date(friend.birthday)) : 'Empty'}
+                </Text>
               </NameValuePair>
             </NameValueList>
 
@@ -69,17 +80,17 @@ function FriendDetails({ friendId, friend, tab, isLoading, onFetchFriends, onCha
               <Tab title="Summary">
                 <Spacer />
                 <HorizontalCenter>
-                  <RouteLink to={`/friends/${friendId}/update`} label="Update" size="small" />
+                  <RouteLink
+                    to={`/friends/${friendId}/update`}
+                    label={friend.summary ? 'Update summary' : 'Add summary'}
+                    size="small"
+                  />
                 </HorizontalCenter>
 
                 {friend.summary ? (
                   <TextEditor editable={false} text={friend.summary} />
                 ) : (
-                  <Button
-                    label="Add summary"
-                    onClick={() => onNav(`/friends/${friend.sortKey}/update`)}
-                    size="xsmall"
-                  />
+                  'No summary'
                 )}
               </Tab>
               <Tab title="Todos">

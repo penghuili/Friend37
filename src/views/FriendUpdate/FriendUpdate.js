@@ -1,7 +1,7 @@
-import { subYears } from 'date-fns';
 import { Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
+import { formatDate } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import DatePicker from '../../shared/react-pure/DatePicker';
 import InputField from '../../shared/react-pure/InputField';
@@ -9,7 +9,6 @@ import Spacer from '../../shared/react-pure/Spacer';
 import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
-import { formatDate } from '../../shared/js/date';
 import { useListener } from '../../shared/react/hooks/useListener';
 
 function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends }) {
@@ -19,8 +18,8 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends })
   useListener(friend?.email, value => setEmail(value || ''));
   const [phone, setPhone] = useState('');
   useListener(friend?.phone, value => setPhone(value || ''));
-  const [birthday, setBirthday] = useState(subYears(new Date(), 20));
-  useListener(friend?.birthday, value => setBirthday(new Date(value || subYears(new Date(), 20))));
+  const [birthday, setBirthday] = useState(null);
+  useListener(friend?.birthday, value => setBirthday(value ? new Date(value) : null));
   const [summary, setSummary] = useState('');
   useListener(friend?.summary, value => setSummary(value || ''));
 
@@ -47,7 +46,13 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends })
         <Button
           label="Update friend"
           onClick={() => {
-            onUpdate(friendId, { name, email, phone, birthday: formatDate(birthday), summary });
+            onUpdate(friendId, {
+              name,
+              email,
+              phone,
+              birthday: birthday ? formatDate(birthday) : null,
+              summary,
+            });
           }}
           disabled={!name || isLoading}
         />

@@ -26,7 +26,7 @@ function Todos({
 
   function renderTodos() {
     if (!todos?.length) {
-      return <Text margin="0 0 1rem">No todos.</Text>;
+      return <Text margin="0 0 1rem">No todos</Text>;
     }
 
     return todos.map(todo => (
@@ -65,7 +65,7 @@ function Todos({
     }
 
     if (!doneTodos?.length) {
-      return <Text margin="0 0 1rem">No done todos.</Text>;
+      return <Text margin="0 0 1rem">No done todos</Text>;
     }
 
     return (
