@@ -101,6 +101,11 @@ function* handleDeleteFriendPressed({ payload: { friendId } }) {
 }
 
 function* handleFetchActivitiesRequested({ payload: { friendId, startKey } }) {
+  const activities = yield select(friendSelectors.getActivities, friendId);
+  if (activities.length && !startKey) {
+    return;
+  }
+
   const friend = yield call(makeSureFriendIsFetched, friendId);
   if (!friend) {
     return;
@@ -169,6 +174,11 @@ function* handleDeleteActivityPressed({ payload: { friendId, activityId } }) {
 }
 
 function* handleFetchTodosRequested({ payload: { friendId } }) {
+  const todos = yield select(friendSelectors.getTodos, friendId);
+  if (todos.length) {
+    return;
+  }
+
   const friend = yield call(makeSureFriendIsFetched, friendId);
 
   yield put(friendActionCreators.isLoading(true));
