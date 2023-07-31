@@ -77,6 +77,14 @@ function FriendDetails({
               onActive={newTab => onChangeTab(friendId, newTab)}
               justify="start"
             >
+              <Tab title="Todos">
+                <Spacer />
+                <Todos friendId={friendId} />
+              </Tab>
+              <Tab title="Activities">
+                <Spacer />
+                <Activities friendId={friendId} />
+              </Tab>
               <Tab title="Summary">
                 <Spacer />
                 <HorizontalCenter>
@@ -92,14 +100,6 @@ function FriendDetails({
                 ) : (
                   'No summary'
                 )}
-              </Tab>
-              <Tab title="Todos">
-                <Spacer />
-                <Todos friendId={friendId} />
-              </Tab>
-              <Tab title="Activities">
-                <Spacer />
-                <Activities friendId={friendId} />
               </Tab>
             </Tabs>
           </>
