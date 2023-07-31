@@ -10,7 +10,7 @@ function Pitch({ showHome }) {
   return (
     <>
       <Text margin="0 0 1rem">
-        Keep friends, <RouteLink label="encrypted" to="/encryption" />.
+        Keep friends. <RouteLink label="Encrypted" to="/encryption" />.
       </Text>
       {showHome && location !== '/' && <RouteLink label="← Back to home" to="/" />}
     </>
