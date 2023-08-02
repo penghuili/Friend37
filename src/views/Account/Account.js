@@ -39,7 +39,7 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
             <RouteLink label="Privacy" to="/privacy" />
             <Spacer />
-            <Anchor label="Contact" href="https://www.peng.kiwi/contact" target="_blank" />
+            <Anchor label="Contact" href="https://peng37.com/contact" target="_blank" />
             <Spacer />
             <Divider />
             <Spacer />
