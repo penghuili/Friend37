@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { formatDateWeekTime } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Spacer from '../../shared/react-pure/Spacer';
-import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
+import TextEditor from '../../shared/react/TextEditor';
 
 function ActivityUpdate({
   friendId,

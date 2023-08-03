@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import DatePicker from '../../shared/react-pure/DatePicker';
 import Spacer from '../../shared/react-pure/Spacer';
-import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
+import TextEditor from '../../shared/react/TextEditor';
 
 function ActivityAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
   const [note, setNote] = useState('');

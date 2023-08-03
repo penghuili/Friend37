@@ -1,11 +1,12 @@
 import { Box, Button, Menu, Text } from 'grommet';
-import React from 'react';
-import { useEffectOnce } from '../../../../shared/react/hooks/useEffectOnce';
-import TextEditor from '../../../../shared/react-pure/TextEditor';
-import RouteLink from '../../../../shared/react/RouteLink';
-import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
-import { formatDateWeekTime } from '../../../../shared/js/date';
 import { MoreVertical } from 'grommet-icons';
+import React from 'react';
+
+import { formatDateWeekTime } from '../../../../shared/js/date';
+import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
+import { useEffectOnce } from '../../../../shared/react/hooks/useEffectOnce';
+import RouteLink from '../../../../shared/react/RouteLink';
+import TextEditor from '../../../../shared/react/TextEditor';
 
 function Activities({ friendId, activities, hasMore, startKey, onFetch, onDelete, onNav }) {
   useEffectOnce(() => {

@@ -5,10 +5,10 @@ import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import DatePicker from '../../shared/react-pure/DatePicker';
 import InputField from '../../shared/react-pure/InputField';
 import Spacer from '../../shared/react-pure/Spacer';
-import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
+import TextEditor from '../../shared/react/TextEditor';
 
 function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriends, onFetchTodos }) {
   const [title, setTitle] = useState('');

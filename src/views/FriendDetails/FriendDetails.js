@@ -7,10 +7,10 @@ import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
 import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import Spacer from '../../shared/react-pure/Spacer';
-import TextEditor from '../../shared/react-pure/TextEditor';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import RouteLink from '../../shared/react/RouteLink';
+import TextEditor from '../../shared/react/TextEditor';
 import Activities from './components/Activities';
 import Todos from './components/Todos';
 
