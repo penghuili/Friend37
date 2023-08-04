@@ -1,3 +1,3 @@
-# Starter37
+# Friend37
 
-This is a starter project for my own projects.
+Keep friends. Encrypted.
