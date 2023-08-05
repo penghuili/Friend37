@@ -15,8 +15,9 @@ import ActivityUpdate from '../views/ActivityUpdate';
 import Encryption from '../views/Encryption';
 import FriendAdd from '../views/FriendAdd';
 import FriendDetails from '../views/FriendDetails';
-import FriendUpdate from '../views/FriendUpdate';
 import Friends from '../views/Friends';
+import FriendsReorder from '../views/FriendsReorder';
+import FriendUpdate from '../views/FriendUpdate';
 import Privacy from '../views/Privacy';
 import TodoAdd from '../views/TodoAdd';
 import TodoUpdate from '../views/TodoUpdate';
@@ -35,6 +36,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
     return (
       <Switch>
         <Route path="/friends/add" component={FriendAdd} />
+        <Route path="/friends/reorder" component={FriendsReorder} />
         <Route path="/friends/:friendId" component={FriendDetails} />
         <Route path="/friends/:friendId/update" component={FriendUpdate} />
         <Route path="/friends/:friendId/todos/add" component={TodoAdd} />

@@ -61,7 +61,7 @@ function* handleCreateFriendPressed({ payload: { name, summary, email, phone, bi
 }
 
 function* handleUpdateFriendPressed({
-  payload: { friendId, name, summary, email, phone, birthday, position },
+  payload: { friendId, name, summary, email, phone, birthday, position, stayOnPage },
 }) {
   const friend = yield call(makeSureFriendIsFetched, friendId);
 
@@ -82,7 +82,9 @@ function* handleUpdateFriendPressed({
   );
   if (data) {
     yield put(friendActionCreators.updateFriendSuccedded(friendId, data));
-    yield call(routeHelpers.goBack);
+    if (!stayOnPage) {
+      yield call(routeHelpers.goBack);
+    }
   }
 
   yield put(friendActionCreators.isLoading(false));

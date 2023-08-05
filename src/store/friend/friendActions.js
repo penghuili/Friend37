@@ -52,10 +52,10 @@ export const friendActionCreators = {
   createFriendSuccedded(friend) {
     return { type: friendActionTypes.CREATE_FRIEND_SUCCEDDED, payload: { friend } };
   },
-  updateFriendPressed(friendId, { name, summary, email, phone, birthday, position }) {
+  updateFriendPressed(friendId, { name, summary, email, phone, birthday, position, stayOnPage }) {
     return {
       type: friendActionTypes.UPDATE_FRIEND_PRESSED,
-      payload: { friendId, name, summary, email, phone, birthday, position },
+      payload: { friendId, name, summary, email, phone, birthday, position, stayOnPage },
     };
   },
   updateFriendSuccedded(friendId, friend) {

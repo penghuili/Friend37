@@ -20,6 +20,9 @@ function Friends({ friends, isLoading, onFetch }) {
       <ContentWrapper>
         <HorizontalCenter margin="0 0 1rem">
           <RouteLink to="/friends/add" label="Add friend" color="status-ok" margin="0 1rem 0 0" />
+          {friends?.length > 1 && (
+            <RouteLink to="/friends/reorder" label="Re-order friends" color="status-ok" />
+          )}
         </HorizontalCenter>
         <Divider />
         <Spacer />

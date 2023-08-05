@@ -16,17 +16,17 @@ function handleReset() {
   return initialState;
 }
 
-function handleFetchFriendsSuccess(state, { friends }) {
+function handleFetchFriendsSucceeded(state, { friends }) {
   return { ...state, friends };
 }
 
-function handleCreateFriendSuccedded(state, { friend }) {
+function handleCreateFriendSucceeded(state, { friend }) {
   return { ...state, friends: [friend, ...state.friends] };
 }
 
 function handleUpdateFriendSuccedded(state, { friendId, friend }) {
   const friends = state.friends.map(f => (f.sortKey === friendId ? friend : f));
-  return { ...state, friends };
+  return { ...state, friends: orderByPosition(friends) };
 }
 
 function handleDeleteFriendSuccedded(state, { friendId }) {
@@ -195,10 +195,10 @@ export function friendReducer(state = initialState, action) {
       return handleIsLoading(state, action.payload);
 
     case friendActionTypes.FETCH_FRIENDS_SUCCEDDED:
-      return handleFetchFriendsSuccess(state, action.payload);
+      return handleFetchFriendsSucceeded(state, action.payload);
 
     case friendActionTypes.CREATE_FRIEND_SUCCEDDED:
-      return handleCreateFriendSuccedded(state, action.payload);
+      return handleCreateFriendSucceeded(state, action.payload);
 
     case friendActionTypes.UPDATE_FRIEND_SUCCEDDED:
       return handleUpdateFriendSuccedded(state, action.payload);
@@ -238,7 +238,7 @@ export function friendReducer(state = initialState, action) {
 
     case friendActionTypes.MARK_TODO_AS_UNDONE_SUCCEDDED:
       return handleMarkTodoAsUndoneSucceeded(state, action.payload);
-      
+
     case friendActionTypes.SET_TAB:
       return handleSetTab(state, action.payload);
 
