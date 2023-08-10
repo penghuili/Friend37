@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../store/friend/friendActions';
-import { friendSelectors } from '../../store/friend/friendSelectors';
 import Friends from './Friends';
+import { friendActions, friendSelectors } from '../../store/friend/friendStore';
 
-const mapStateToProps = state => ({
-  friends: friendSelectors.getFriends(state),
-  isLoading: friendSelectors.isLoading(state),
-});
+const mapStateToProps = state => {
+  return {
+    friends: friendSelectors.data.getItems(state),
+    isLoading: friendSelectors.fetchItems.isPending(state),
+  };
+};
 
 const mapDispatchToProps = {
-  onFetch: friendActionCreators.fetchFriendsRequested,
+  onFetch: friendActions.fetchItemsRequested,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Friends);

@@ -10,7 +10,7 @@ import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
 import TextEditor from '../../shared/react/TextEditor';
 
-function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriends, onFetchTodos }) {
+function TodoUpdate({ friendId, todoId, todo, isLoadingTodos, onUpdate, onFetch }) {
   const [title, setTitle] = useState('');
   useListener(todo?.title, value => setTitle(value || ''));
   const [note, setNote] = useState('');
@@ -19,13 +19,12 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriend
   useListener(todo?.date, value => setDate(value ? new Date(value) : null));
 
   useEffectOnce(() => {
-    onFetchFriends();
-    onFetchTodos(friendId);
+    onFetch({ id: friendId, childId: todoId });
   });
 
   return (
     <>
-      <AppBar title="Update todo" hasBack />
+      <AppBar title="Update todo" hasBack isLoading={isLoadingTodos} />
       <ContentWrapper>
         <InputField label="Title" placeholder="Title" value={title} onChange={setTitle} />
         <Spacer />
@@ -38,9 +37,16 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, onUpdate, onFetchFriend
         <Button
           label="Update todo"
           onClick={() => {
-            onUpdate(friendId, todoId, { title, note, date: date ? date.getTime() : null });
+            onUpdate({
+              id: friendId,
+              childId: todoId,
+              title,
+              note,
+              date: date ? date.getTime() : null,
+              goBack: true,
+            });
           }}
-          disabled={!title || isLoading}
+          disabled={!title || isLoadingTodos}
         />
       </ContentWrapper>
     </>

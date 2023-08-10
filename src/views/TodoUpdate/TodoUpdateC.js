@@ -1,20 +1,22 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../store/friend/friendActions';
-import { friendSelectors } from '../../store/friend/friendSelectors';
+import { todoActions, todoSelectors } from '../../store/todo/todoStore';
 import TodoUpdate from './TodoUpdate';
 
-const mapStateToProps = (state, { params: { friendId, todoId } }) => ({
-  friendId,
-  todoId,
-  todo: friendSelectors.getTodo(state, friendId, todoId),
-  isLoading: friendSelectors.isLoading(state),
-});
+const mapStateToProps = (state, { params: { friendId, todoId } }) => {
+  return {
+    friendId,
+    todoId,
+    todo:
+      todoSelectors.data.getStandaloneItem(state, friendId) ||
+      todoSelectors.data.getItem(state, friendId, todoId),
+    isLoadingTodos: todoSelectors.fetchItems.isPending(state, friendId),
+  };
+};
 
 const mapDispatchToProps = {
-  onFetchFriends: friendActionCreators.fetchFriendsRequested,
-  onFetchTodos: friendActionCreators.fetchTodosRequested,
-  onUpdate: friendActionCreators.updateTodoPressed,
+  onFetch: todoActions.fetchItem.requested.action,
+  onUpdate: todoActions.updateItem.requested.action,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoUpdate);

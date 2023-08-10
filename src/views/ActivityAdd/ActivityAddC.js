@@ -1,17 +1,15 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../store/friend/friendActions';
-import { friendSelectors } from '../../store/friend/friendSelectors';
+import { activityActions, activitySelectors } from '../../store/activity/activityStore';
 import ActivityAdd from './ActivityAdd';
 
 const mapStateToProps = (state, { params: { friendId } }) => ({
   friendId,
-  isLoading: friendSelectors.isLoading(state),
+  isCreating: activitySelectors.createItem.isPending(state, friendId),
 });
 
 const mapDispatchToProps = {
-  onFetchFriends: friendActionCreators.fetchFriendsRequested,
-  onCreate: friendActionCreators.createActivityPressed,
+  onCreate: activityActions.createRequested,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityAdd);

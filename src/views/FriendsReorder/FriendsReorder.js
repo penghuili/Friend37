@@ -20,7 +20,7 @@ function FriendsReorder({ isLoading, friends, onFetch, onUpdate }) {
           titleKey="name"
           onDragEnd={(sourceId, targetId) => {
             const newPosition = calculateItemPosition(friends, sourceId, targetId);
-            onUpdate(sourceId, { position: newPosition, stayOnPage: true });
+            onUpdate({ childId: sourceId, position: newPosition, goBack: false, reorder: true });
           }}
         />
       </ContentWrapper>

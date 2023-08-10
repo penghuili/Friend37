@@ -5,20 +5,15 @@ import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import DatePicker from '../../shared/react-pure/DatePicker';
 import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import TextEditor from '../../shared/react/TextEditor';
 
-function ActivityAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
+function ActivityAdd({ friendId, isCreating, onCreate }) {
   const [note, setNote] = useState('');
   const [date, setDate] = useState(new Date());
 
-  useEffectOnce(() => {
-    onFetchFriends();
-  });
-
   return (
     <>
-      <AppBar title="Add activity" hasBack />
+      <AppBar title="Add activity" hasBack isLoading={isCreating} />
       <ContentWrapper>
         <DatePicker showTime label="Date" value={date} onChange={setDate} />
         <Spacer />
@@ -29,9 +24,9 @@ function ActivityAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
         <Button
           label="Add activity"
           onClick={() => {
-            onCreate(friendId, { note, date: date.getTime() });
+            onCreate({ id: friendId, note, date: date.getTime(), goBack: true });
           }}
-          disabled={!note || isLoading}
+          disabled={!note || isCreating}
         />
       </ContentWrapper>
     </>

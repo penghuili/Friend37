@@ -7,19 +7,14 @@ import DatePicker from '../../shared/react-pure/DatePicker';
 import InputField from '../../shared/react-pure/InputField';
 import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import TextEditor from '../../shared/react/TextEditor';
 
-function FriendAdd({ isLoading, onCreate, onFetchFriends }) {
+function FriendAdd({ isCreating, onCreate }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [birthday, setBirthday] = useState(null);
   const [summary, setSummary] = useState('');
-
-  useEffectOnce(() => {
-    onFetchFriends();
-  });
 
   return (
     <>
@@ -46,9 +41,10 @@ function FriendAdd({ isLoading, onCreate, onFetchFriends }) {
               phone,
               birthday: birthday ? formatDate(birthday) : null,
               summary,
+              goBack: true,
             });
           }}
-          disabled={!name || isLoading}
+          disabled={!name || isCreating}
         />
       </ContentWrapper>
     </>

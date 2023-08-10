@@ -11,7 +11,7 @@ import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
 import TextEditor from '../../shared/react/TextEditor';
 
-function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends }) {
+function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetch }) {
   const [name, setName] = useState('');
   useListener(friend?.name, value => setName(value || ''));
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends })
   useListener(friend?.summary, value => setSummary(value || ''));
 
   useEffectOnce(() => {
-    onFetchFriends();
+    onFetch({ childId: friendId });
   });
 
   return (
@@ -46,12 +46,15 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetchFriends })
         <Button
           label="Update friend"
           onClick={() => {
-            onUpdate(friendId, {
+            console.log('friendId', friendId)
+            onUpdate({
+              childId: friendId,
               name,
               email,
               phone,
               birthday: birthday ? formatDate(birthday) : null,
               summary,
+              goBack: true,
             });
           }}
           disabled={!name || isLoading}

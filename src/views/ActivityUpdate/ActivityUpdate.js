@@ -14,21 +14,20 @@ function ActivityUpdate({
   activityId,
   activity,
   isLoading,
+  isUpdating,
   onUpdate,
-  onFetchFriends,
-  onFetchActivities,
+  onFetch,
 }) {
   const [note, setNote] = useState('');
   useListener(activity?.note, value => setNote(value || ''));
 
   useEffectOnce(() => {
-    onFetchFriends();
-    onFetchActivities(friendId);
+    onFetch({ id: friendId, childId: activityId });
   });
 
   return (
     <>
-      <AppBar title="Update activity" hasBack />
+      <AppBar title="Update activity" hasBack isLoading={isLoading || isUpdating} />
       <ContentWrapper>
         {!!activity && (
           <>
@@ -40,9 +39,9 @@ function ActivityUpdate({
             <Button
               label="Update activity"
               onClick={() => {
-                onUpdate(friendId, activityId, note);
+                onUpdate({ id: friendId, childId: activityId, note, goBack: true });
               }}
-              disabled={!note || isLoading}
+              disabled={!note || isLoading || isUpdating}
             />
           </>
         )}

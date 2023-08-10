@@ -2,23 +2,19 @@ import { connect } from 'react-redux';
 
 import { sharedActionCreators } from '../../shared/react/store/sharedActions';
 import FriendDetails from './FriendDetails';
-import { friendSelectors } from '../../store/friend/friendSelectors';
-import { friendActionCreators } from '../../store/friend/friendActions';
+import { friendActions, friendSelectors } from '../../store/friend/friendStore';
 
 const mapStateToProps = (state, { params: { friendId } }) => ({
   friendId,
-  friend: friendSelectors.getFriend(state, friendId),
-  tab: friendSelectors.getTab(state, friendId),
-  isLoading: friendSelectors.isLoading(state),
+  friend: friendSelectors.data.getItem(state, undefined, friendId),
+  tab: friendSelectors.data.getTab(state, friendId),
+  isLoading: friendSelectors.fetchItems.isPending(state),
 });
 
 const mapDispatchToProps = {
-  onFetchFriends: friendActionCreators.fetchFriendsRequested,
-  onFetchActivities: friendActionCreators.fetchActivitiesRequested,
-  onFetchTodos: friendActionCreators.fetchTodosRequested,
-  onFetchDoneTodos: friendActionCreators.fetchDoneTodosRequested,
-  onChangeTab: friendActionCreators.setTab,
-  onDeleteFriend: friendActionCreators.deleteFriendPressed,
+  onFetch: friendActions.fetchItemsRequested,
+  onChangeTab: friendActions.setTab,
+  onDelete: friendActions.deleteRequested,
   onNav: sharedActionCreators.navigate,
   onToast: sharedActionCreators.setToast,
 };

@@ -1,10 +1,11 @@
-import { Anchor, Box, Button, Menu, Text } from 'grommet';
+import { Anchor, Box, Button, Menu, Spinner, Text } from 'grommet';
 import { Checkmark, MoreVertical } from 'grommet-icons';
-import React from 'react';
+import React, { useState } from 'react';
+
 import { formatDateWeekTime } from '../../../../shared/js/date';
 import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
-import RouteLink from '../../../../shared/react/RouteLink';
 import { useEffectOnce } from '../../../../shared/react/hooks/useEffectOnce';
+import RouteLink from '../../../../shared/react/RouteLink';
 
 function Todos({
   todos,
@@ -19,10 +20,26 @@ function Todos({
   onDelete,
   onNav,
   friendId,
+  isMarkingDone,
+  isMarkingUndone,
+  isDeleting,
+  isLoadingDoneTodos,
 }) {
+  const [markingDoneId, setMarkingDoneId] = useState(null);
+  const [markingUndoneId, setMarkingUndoneId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+
   useEffectOnce(() => {
-    onFetchTodos(friendId);
+    onFetchTodos({ id: friendId });
   });
+
+  function showSpinnerForItem(todo) {
+    return (
+      (isMarkingDone && markingDoneId === todo.sortKey) ||
+      (isMarkingUndone && markingUndoneId === todo.sortKey) ||
+      (isDeleting && deleteId === todo.sortKey)
+    );
+  }
 
   function renderTodos() {
     if (!todos?.length) {
@@ -31,7 +48,16 @@ function Todos({
 
     return todos.map(todo => (
       <HorizontalCenter key={todo.sortKey}>
-        <Checkmark onClick={() => onMarkAsDone(friendId, todo.sortKey)} />
+        {showSpinnerForItem(todo) ? (
+          <Spinner size="xsmall" />
+        ) : (
+          <Checkmark
+            onClick={() => {
+              setMarkingDoneId(todo.sortKey);
+              onMarkAsDone({ id: friendId, childId: todo.sortKey });
+            }}
+          />
+        )}
         <Text margin="0 0 0 1rem">{todo.title}</Text>
         <Menu
           icon={<MoreVertical />}
@@ -43,7 +69,10 @@ function Todos({
             },
             {
               label: 'Delete',
-              onClick: () => onDelete(friendId, todo.sortKey),
+              onClick: () => {
+                setDeleteId(todo.sortKey);
+                onDelete({ id: friendId, childId: todo.sortKey });
+              },
               margin: '0.25rem 0',
               color: 'status-critical',
             },
@@ -56,11 +85,14 @@ function Todos({
   function renderDoneTodos() {
     if (!hasLoadedDoneTodos) {
       return (
-        <Anchor
-          label="Load done todos"
-          onClick={() => onFetchDoneTodos(friendId, doneTodosStartKey)}
-          size="xsmall"
-        />
+        <HorizontalCenter>
+          <Anchor
+            label="Load done todos"
+            onClick={() => onFetchDoneTodos({ id: friendId, startKey: doneTodosStartKey })}
+            size="xsmall"
+          />
+          {isLoadingDoneTodos && <Spinner size="xsmall" />}
+        </HorizontalCenter>
       );
     }
 
@@ -70,7 +102,9 @@ function Todos({
 
     return (
       <>
-        <Text weight="bold">Done:</Text>
+        <Text weight="bold" margin="1rem 0 0">
+          Done:
+        </Text>
         {doneTodos.map(todo => (
           <Box key={todo.sortKey} margin="0 0 1rem">
             <HorizontalCenter>
@@ -80,27 +114,32 @@ function Todos({
                 items={[
                   {
                     label: 'Undo',
-                    onClick: () => onMarkAsUndone(friendId, todo.sortKey),
+                    onClick: () => {
+                      setMarkingUndoneId(todo.sortKey);
+                      onMarkAsUndone({ id: friendId, childId: todo.sortKey });
+                    },
                     margin: '0.25rem 0',
                   },
                   {
                     label: 'Delete',
-                    onClick: () => onDelete(friendId, todo.sortKey),
+                    onClick: () => {
+                      setDeleteId(todo.sortKey);
+                      onDelete({ id: friendId, childId: todo.sortKey });
+                    },
                     margin: '0.25rem 0',
                     color: 'status-critical',
                   },
                 ]}
               />
+              {showSpinnerForItem(todo) && <Spinner size="xsmall" />}
             </HorizontalCenter>
-            <Text style={{ textDecoration: 'line-through' }}>
-              {todo.title}
-            </Text>
+            <Text style={{ textDecoration: 'line-through' }}>{todo.title}</Text>
           </Box>
         ))}
         {hasMoreDoneTodos && (
           <Button
             label="Load done todos"
-            onClick={() => onFetchDoneTodos(friendId, doneTodosStartKey)}
+            onClick={() => onFetchDoneTodos({ id: friendId, startKey: doneTodosStartKey })}
             size="xsmall"
           />
         )}

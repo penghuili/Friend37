@@ -20,7 +20,19 @@ export async function fetchFriends() {
       decryptedItems.push(decrypted);
     });
 
-    return { data: decryptedItems, error: null };
+    return { data: { items: decryptedItems }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function fetchFriend(friendId) {
+  try {
+    const item = await HTTP.get(apps.friend37.name, `/v1/friends/${friendId}`);
+
+    const decrypted = await decryptFriendContent(item);
+
+    return { data: decrypted, error: null };
   } catch (error) {
     return { data: null, error };
   }
@@ -99,219 +111,6 @@ export async function deleteFriend(friendId) {
   }
 }
 
-export async function fetchActivities(friendId, startKey, decryptedPassword) {
-  try {
-    const query = startKey ? `?startKey=${startKey}` : '';
-    const {
-      items,
-      startKey: newStartKey,
-      limit,
-    } = await HTTP.get(apps.friend37.name, `/v1/friends/${friendId}/activities${query}`);
-
-    const decryptedItems = [];
-    await asyncForEach(items, async item => {
-      const decrypted = await decryptActivityContent(item, decryptedPassword);
-      decryptedItems.push(decrypted);
-    });
-
-    return {
-      data: {
-        items: decryptedItems,
-        startKey: newStartKey,
-        hasMore: decryptedItems.length >= limit,
-      },
-      error: null,
-    };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function createActivity(friendId, { note, date }, decryptedPassword) {
-  try {
-    const { note: encryptedNote } = await encryptActivityContent({ note }, decryptedPassword);
-
-    const response = await HTTP.post(apps.friend37.name, `/v1/friends/${friendId}/activities`, {
-      note: encryptedNote,
-      date,
-    });
-
-    const decrypted = await decryptActivityContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function updateActivity(friendId, activityId, { note }, decryptedPassword) {
-  try {
-    const { note: encryptedNote } = await encryptActivityContent({ note }, decryptedPassword);
-
-    const response = await HTTP.put(
-      apps.friend37.name,
-      `/v1/friends/${friendId}/activities/${activityId}`,
-      {
-        note: encryptedNote,
-      }
-    );
-
-    const decrypted = await decryptActivityContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function deleteActivity(friendId, activityId) {
-  try {
-    const result = await HTTP.delete(
-      apps.friend37.name,
-      `/v1/friends/${friendId}/activities/${activityId}`
-    );
-
-    return { data: result, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function fetchTodos(friendId, decryptedPassword) {
-  try {
-    const items = await HTTP.get(apps.friend37.name, `/v1/friends/${friendId}/todos`);
-
-    const decryptedItems = [];
-    await asyncForEach(items, async item => {
-      const decrypted = await decryptTodoContent(item, decryptedPassword);
-      decryptedItems.push(decrypted);
-    });
-
-    return { data: decryptedItems, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function fetchDoneTodos(friendId, startKey, decryptedPassword) {
-  try {
-    const query = startKey ? `?startKey=${startKey}` : '';
-    const {
-      items,
-      startKey: newStartKey,
-      limit,
-    } = await HTTP.get(apps.friend37.name, `/v1/friends/${friendId}/done-todos${query}`);
-
-    const decryptedItems = [];
-    await asyncForEach(items, async item => {
-      const decrypted = await decryptTodoContent(item, decryptedPassword);
-      decryptedItems.push(decrypted);
-    });
-
-    return {
-      data: {
-        items: decryptedItems,
-        startKey: newStartKey,
-        hasMore: decryptedItems.length >= limit,
-      },
-      error: null,
-    };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function createTodo(friendId, { title, note, date }, decryptedPassword) {
-  try {
-    const { title: encryptedTitle, note: encryptedNote } = await encryptTodoContent(
-      { title, note },
-      decryptedPassword
-    );
-
-    const response = await HTTP.post(apps.friend37.name, `/v1/friends/${friendId}/todos`, {
-      title: encryptedTitle,
-      note: encryptedNote,
-      date,
-    });
-
-    const decrypted = await decryptTodoContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function markTodoAsDone(friendId, todoId, decryptedPassword) {
-  try {
-    const response = await HTTP.put(
-      apps.friend37.name,
-      `/v1/friends/${friendId}/todos/${todoId}/done`
-    );
-
-    const decrypted = await decryptTodoContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function markTodoAsUndone(friendId, todoId, decryptedPassword) {
-  try {
-    const response = await HTTP.put(
-      apps.friend37.name,
-      `/v1/friends/${friendId}/done-todos/${todoId}/undo`
-    );
-
-    const decrypted = await decryptTodoContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function updateTodo(
-  friendId,
-  todoId,
-  { title, note, date, position },
-  decryptedPassword
-) {
-  try {
-    const { title: encryptedTitle, note: encryptedNote } = await encryptTodoContent(
-      { title, note },
-      decryptedPassword
-    );
-
-    const response = await HTTP.put(apps.friend37.name, `/v1/friends/${friendId}/todos/${todoId}`, {
-      title: encryptedTitle,
-      note: encryptedNote,
-      date,
-      position,
-    });
-
-    const decrypted = await decryptTodoContent(response, decryptedPassword);
-
-    return { data: decrypted, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function deleteTodo(friendId, todoId) {
-  try {
-    const result = await HTTP.delete(
-      apps.friend37.name,
-      `/v1/friends/${friendId}/todos/${todoId}`
-    );
-
-    return { data: result, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
 async function encryptFriendContent(data, decryptedPassword) {
   const { name, summary, email, phone, birthday } = data;
 
@@ -361,53 +160,5 @@ async function decryptFriendContent(data) {
     todos: data.todos || [],
     doneTodos: data.doneTodos || [],
     activities: data.activities || [],
-  };
-}
-
-async function encryptActivityContent(data, decryptedPassword) {
-  const { note } = data;
-
-  const encryptedNote = note ? await encryptMessageSymmetric(decryptedPassword, note) : note;
-
-  return {
-    ...data,
-    note: encryptedNote,
-  };
-}
-
-async function decryptActivityContent(data, decryptedPassword) {
-  const { note } = data;
-
-  const decryptedNote = note ? await decryptMessageSymmetric(decryptedPassword, note) : null;
-
-  return {
-    ...data,
-    note: decryptedNote,
-  };
-}
-
-async function encryptTodoContent(data, decryptedPassword) {
-  const { title, note } = data;
-
-  const encryptedTitle = await encryptMessageSymmetric(decryptedPassword, title);
-  const encryptedNote = note ? await encryptMessageSymmetric(decryptedPassword, note) : note;
-
-  return {
-    ...data,
-    title: encryptedTitle,
-    note: encryptedNote,
-  };
-}
-
-async function decryptTodoContent(data, decryptedPassword) {
-  const { title, note } = data;
-
-  const decryptedTitle = await decryptMessageSymmetric(decryptedPassword, title);
-  const decryptedNote = note ? await decryptMessageSymmetric(decryptedPassword, note) : null;
-
-  return {
-    ...data,
-    title: decryptedTitle,
-    note: decryptedNote,
   };
 }

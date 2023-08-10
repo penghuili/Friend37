@@ -1,6 +1,6 @@
-import { Box, Button, Menu, Text } from 'grommet';
+import { Box, Button, Menu, Spinner, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { formatDateWeekTime } from '../../../../shared/js/date';
 import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
@@ -8,9 +8,20 @@ import { useEffectOnce } from '../../../../shared/react/hooks/useEffectOnce';
 import RouteLink from '../../../../shared/react/RouteLink';
 import TextEditor from '../../../../shared/react/TextEditor';
 
-function Activities({ friendId, activities, hasMore, startKey, onFetch, onDelete, onNav }) {
+function Activities({
+  friendId,
+  activities,
+  hasMore,
+  startKey,
+  isDeleting,
+  onFetch,
+  onDelete,
+  onNav,
+}) {
+  const [deleteId, setDeleteId] = useState(null);
+
   useEffectOnce(() => {
-    onFetch(friendId);
+    onFetch({ id: friendId });
   });
 
   function renderActivities() {
@@ -35,12 +46,16 @@ function Activities({ friendId, activities, hasMore, startKey, onFetch, onDelete
                   },
                   {
                     label: 'Delete',
-                    onClick: () => onDelete(friendId, activity.sortKey),
+                    onClick: () => {
+                      setDeleteId(activity.sortKey);
+                      onDelete({ id: friendId, childId: activity.sortKey });
+                    },
                     margin: '0.25rem 0',
                     color: 'status-critical',
                   },
                 ]}
               />
+              {isDeleting && deleteId === activity.sortKey && <Spinner size="xsmall" />}
             </HorizontalCenter>
             <TextEditor editable={false} text={activity.note} />
           </Box>

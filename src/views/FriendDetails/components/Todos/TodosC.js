@@ -1,25 +1,29 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../../../store/friend/friendActions';
-import { friendSelectors } from '../../../../store/friend/friendSelectors';
-import Todos from './Todos';
 import { sharedActionCreators } from '../../../../shared/react/store/sharedActions';
+import { doneTodoActions, doneTodoSelectors } from '../../../../store/doneTodo/doneTodoStore';
+import { todoActions, todoSelectors } from '../../../../store/todo/todoStore';
+import Todos from './Todos';
 
 const mapStateToProps = (state, { friendId }) => ({
   friendId,
-  todos: friendSelectors.getTodos(state, friendId),
-  doneTodos: friendSelectors.getDoneTodos(state, friendId),
-  hasLoadedDoneTodos: friendSelectors.hasLoadedDoneTodos(state, friendId),
-  hasMoreDoneTodos: friendSelectors.hasMoreDoneTodos(state, friendId),
-  doneTodosStartKey: friendSelectors.getDoneTodosStartKey(state, friendId),
+  todos: todoSelectors.data.getItems(state, friendId),
+  doneTodos: doneTodoSelectors.data.getItems(state, friendId),
+  hasLoadedDoneTodos: doneTodoSelectors.fetchDoneTodos.isSuccessful(state, friendId),
+  hasMoreDoneTodos: doneTodoSelectors.data.hasMore(state, friendId),
+  doneTodosStartKey: doneTodoSelectors.data.getStartKey(state, friendId),
+  isMarkingDone: todoSelectors.markTodoAsDone.isPending(state, friendId),
+  isMarkingUndone: todoSelectors.markTodoAsUndone.isPending(state, friendId),
+  isDeleting: todoSelectors.deleteItem.isPending(state, friendId),
+  isLoadingDoneTodos: doneTodoSelectors.fetchDoneTodos.isPending(state, friendId),
 });
 
 const mapDispatchToProps = {
-  onFetchTodos: friendActionCreators.fetchTodosRequested,
-  onFetchDoneTodos: friendActionCreators.fetchDoneTodosRequested,
-  onMarkAsDone: friendActionCreators.markTodoAsDonePressed,
-  onMarkAsUndone: friendActionCreators.markTodoAsUndonePressed,
-  onDelete: friendActionCreators.deleteTodoPressed,
+  onFetchTodos: todoActions.fetchItems.requested.action,
+  onFetchDoneTodos: doneTodoActions.fetchItems.requested.action,
+  onMarkAsDone: todoActions.markTodoAsDone.requested.action,
+  onMarkAsUndone: todoActions.markTodoAsUndone.requested.action,
+  onDelete: todoActions.deleteItem.requested.action,
   onNav: sharedActionCreators.navigate,
 };
 

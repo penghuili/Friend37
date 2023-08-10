@@ -1,20 +1,19 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../store/friend/friendActions';
-import { friendSelectors } from '../../store/friend/friendSelectors';
+import { activityActions, activitySelectors } from '../../store/activity/activityStore';
 import ActivityUpdate from './ActivityUpdate';
 
 const mapStateToProps = (state, { params: { friendId, activityId } }) => ({
   friendId,
   activityId,
-  activity: friendSelectors.getActivity(state, friendId, activityId),
-  isLoading: friendSelectors.isLoading(state),
+  activity: activitySelectors.data.getStandaloneItem(state, friendId),
+  isLoading: activitySelectors.fetchItem.isPending(state, friendId),
+  isUpdating: activitySelectors.updateItem.isPending(state, friendId),
 });
 
 const mapDispatchToProps = {
-  onFetchFriends: friendActionCreators.fetchFriendsRequested,
-  onFetchActivities: friendActionCreators.fetchActivitiesRequested,
-  onUpdate: friendActionCreators.updateActivityPressed,
+  onFetch: activityActions.fetchItemRequested,
+  onUpdate: activityActions.updateRequested,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityUpdate);

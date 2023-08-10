@@ -1,20 +1,20 @@
 import { connect } from 'react-redux';
 
-import { friendActionCreators } from '../../../../store/friend/friendActions';
-import { friendSelectors } from '../../../../store/friend/friendSelectors';
-import Activities from './Activities';
 import { sharedActionCreators } from '../../../../shared/react/store/sharedActions';
+import { activityActions, activitySelectors } from '../../../../store/activity/activityStore';
+import Activities from './Activities';
 
 const mapStateToProps = (state, { friendId }) => ({
   friendId,
-  activities: friendSelectors.getActivities(state, friendId),
-  hasMore: friendSelectors.hasMoreActivities(state, friendId),
-  startKey: friendSelectors.getActivitiesStartKey(state, friendId),
+  activities: activitySelectors.data.getItems(state, friendId),
+  hasMore: activitySelectors.data.hasMore(state, friendId),
+  startKey: activitySelectors.data.getStartKey(state, friendId),
+  isDeleting: activitySelectors.deleteItem.isPending(state, friendId),
 });
 
 const mapDispatchToProps = {
-  onFetch: friendActionCreators.fetchActivitiesRequested,
-  onDelete: friendActionCreators.deleteActivityPressed,
+  onFetch: activityActions.fetchItemsRequested,
+  onDelete: activityActions.deleteRequested,
   onNav: sharedActionCreators.navigate,
 };
 

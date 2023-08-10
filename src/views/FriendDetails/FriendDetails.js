@@ -19,13 +19,13 @@ function FriendDetails({
   friend,
   tab,
   isLoading,
-  onFetchFriends,
+  onFetch,
   onChangeTab,
-  onDeleteFriend,
+  onDelete,
   onNav,
 }) {
   useEffectOnce(() => {
-    onFetchFriends();
+    onFetch();
   });
 
   return (
@@ -46,7 +46,7 @@ function FriendDetails({
                   },
                   {
                     label: 'Delete',
-                    onClick: () => onDeleteFriend(friend.sortKey),
+                    onClick: () => onDelete({ childId: friend.sortKey, goBack: true }),
                     margin: '0.25rem 0',
                     color: 'status-critical',
                   },

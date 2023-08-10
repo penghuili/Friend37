@@ -6,21 +6,16 @@ import DatePicker from '../../shared/react-pure/DatePicker';
 import InputField from '../../shared/react-pure/InputField';
 import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import TextEditor from '../../shared/react/TextEditor';
 
-function TodoAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
+function TodoAdd({ friendId, isCreating, onCreate }) {
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [date, setDate] = useState(null);
 
-  useEffectOnce(() => {
-    onFetchFriends();
-  });
-
   return (
     <>
-      <AppBar title="Add todo" hasBack />
+      <AppBar title="Add todo" hasBack isLoading={isCreating} />
       <ContentWrapper>
         <InputField label="Title" placeholder="Title" value={title} onChange={setTitle} />
         <Spacer />
@@ -33,9 +28,15 @@ function TodoAdd({ friendId, isLoading, onCreate, onFetchFriends }) {
         <Button
           label="Add todo"
           onClick={() => {
-            onCreate(friendId, { title, note, date: date ? date.getTime() : null });
+            onCreate({
+              id: friendId,
+              title,
+              note,
+              date: date ? date.getTime() : null,
+              goBack: true,
+            });
           }}
-          disabled={!title || isLoading}
+          disabled={!title || isCreating}
         />
       </ContentWrapper>
     </>
