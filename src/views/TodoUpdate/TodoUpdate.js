@@ -10,7 +10,7 @@ import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
 import TextEditor from '../../shared/react/TextEditor';
 
-function TodoUpdate({ friendId, todoId, todo, isLoadingTodos, onUpdate, onFetch }) {
+function TodoUpdate({ friendId, todoId, todo, isLoading, isUpdating, onUpdate, onFetch }) {
   const [title, setTitle] = useState('');
   useListener(todo?.title, value => setTitle(value || ''));
   const [note, setNote] = useState('');
@@ -24,7 +24,7 @@ function TodoUpdate({ friendId, todoId, todo, isLoadingTodos, onUpdate, onFetch 
 
   return (
     <>
-      <AppBar title="Update todo" hasBack isLoading={isLoadingTodos} />
+      <AppBar title="Update todo" hasBack isLoading={isLoading || isUpdating} />
       <ContentWrapper>
         <InputField label="Title" placeholder="Title" value={title} onChange={setTitle} />
         <Spacer />
@@ -46,7 +46,7 @@ function TodoUpdate({ friendId, todoId, todo, isLoadingTodos, onUpdate, onFetch 
               goBack: true,
             });
           }}
-          disabled={!title || isLoadingTodos}
+          disabled={!title || isUpdating}
         />
       </ContentWrapper>
     </>

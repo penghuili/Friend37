@@ -10,7 +10,8 @@ const mapStateToProps = (state, { params: { friendId, todoId } }) => {
     todo:
       todoSelectors.data.getStandaloneItem(state, friendId) ||
       todoSelectors.data.getItem(state, friendId, todoId),
-    isLoadingTodos: todoSelectors.fetchItems.isPending(state, friendId),
+    isLoading: todoSelectors.fetchItem.isPending(state, friendId),
+    isUpdating: todoSelectors.updateItem.isPending(state, friendId),
   };
 };
 
