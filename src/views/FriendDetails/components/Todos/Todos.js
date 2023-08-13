@@ -54,7 +54,7 @@ function Todos({
           <Checkmark
             onClick={() => {
               setMarkingDoneId(todo.sortKey);
-              onMarkAsDone({ id: friendId, childId: todo.sortKey });
+              onMarkAsDone({ id: friendId, itemId: todo.sortKey });
             }}
           />
         )}
@@ -71,7 +71,7 @@ function Todos({
               label: 'Delete',
               onClick: () => {
                 setDeleteId(todo.sortKey);
-                onDelete({ id: friendId, childId: todo.sortKey });
+                onDelete({ id: friendId, itemId: todo.sortKey });
               },
               margin: '0.25rem 0',
               color: 'status-critical',
@@ -116,7 +116,7 @@ function Todos({
                     label: 'Undo',
                     onClick: () => {
                       setMarkingUndoneId(todo.sortKey);
-                      onMarkAsUndone({ id: friendId, childId: todo.sortKey });
+                      onMarkAsUndone({ id: friendId, itemId: todo.sortKey });
                     },
                     margin: '0.25rem 0',
                   },
@@ -124,7 +124,7 @@ function Todos({
                     label: 'Delete',
                     onClick: () => {
                       setDeleteId(todo.sortKey);
-                      onDelete({ id: friendId, childId: todo.sortKey });
+                      onDelete({ id: friendId, itemId: todo.sortKey });
                     },
                     margin: '0.25rem 0',
                     color: 'status-critical',

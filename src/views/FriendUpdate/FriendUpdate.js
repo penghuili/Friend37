@@ -24,7 +24,7 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetch }) {
   useListener(friend?.summary, value => setSummary(value || ''));
 
   useEffectOnce(() => {
-    onFetch({ childId: friendId });
+    onFetch({ itemId: friendId });
   });
 
   return (
@@ -48,7 +48,7 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetch }) {
           onClick={() => {
             console.log('friendId', friendId)
             onUpdate({
-              childId: friendId,
+              itemId: friendId,
               name,
               email,
               phone,

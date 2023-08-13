@@ -40,8 +40,8 @@ const { actions, selectors, reducer, saga } = createGeneralStore(activityDomain,
 
     return { continueCall: true, result: friend };
   },
-  fetchItem: async ({ id, childId }, friend) => {
-    return fetchActivity(id, childId, friend.decryptedPassword);
+  fetchItem: async ({ id, itemId }, friend) => {
+    return fetchActivity(id, itemId, friend.decryptedPassword);
   },
   preCreateItem: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);
@@ -62,11 +62,11 @@ const { actions, selectors, reducer, saga } = createGeneralStore(activityDomain,
 
     return { continueCall: true, result: friend };
   },
-  updateItem: async ({ id, childId, note }, friend) => {
-    return updateActivity(id, childId, { note }, friend.decryptedPassword);
+  updateItem: async ({ id, itemId, note }, friend) => {
+    return updateActivity(id, itemId, { note }, friend.decryptedPassword);
   },
-  deleteItem: async ({ id, childId }) => {
-    return deleteActivity(id, childId);
+  deleteItem: async ({ id, itemId }) => {
+    return deleteActivity(id, itemId);
   },
 });
 

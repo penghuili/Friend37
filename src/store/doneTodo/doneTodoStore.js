@@ -40,15 +40,15 @@ function customReducer(state, action) {
     }
     case todoActions.markTodoAsUndone.succeeded.type: {
       const {
-        payload: { id, childId },
+        payload: { id, itemId },
       } = action.payload;
-      return removeBySortKey(state, ['data', id, 'items'], childId);
+      return removeBySortKey(state, ['data', id, 'items'], itemId);
     }
     case todoActions.deleteItem.succeeded.type: {
       const {
-        payload: { id, childId },
+        payload: { id, itemId },
       } = action.payload;
-      return removeBySortKey(state, ['data', id, 'items'], childId);
+      return removeBySortKey(state, ['data', id, 'items'], itemId);
     }
     default:
       return state;

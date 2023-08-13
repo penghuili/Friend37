@@ -49,8 +49,8 @@ const { actions, selectors, reducer, saga } = createGeneralStore(todoDomain, {
 
     return { continueCall: true, result: friend };
   },
-  fetchItem: async ({ id, childId }, friend) => {
-    return fetchTodo(id, childId, friend.decryptedPassword);
+  fetchItem: async ({ id, itemId }, friend) => {
+    return fetchTodo(id, itemId, friend.decryptedPassword);
   },
   preCreateItem: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);
@@ -71,17 +71,17 @@ const { actions, selectors, reducer, saga } = createGeneralStore(todoDomain, {
 
     return { continueCall: true, result: friend };
   },
-  updateItem: async ({ id, childId, title, note, date, position }, friend) => {
-    return updateTodo(id, childId, { title, note, date, position }, friend.decryptedPassword);
+  updateItem: async ({ id, itemId, title, note, date, position }, friend) => {
+    return updateTodo(id, itemId, { title, note, date, position }, friend.decryptedPassword);
   },
-  deleteItem: async ({ id, childId }) => {
-    return deleteTodo(id, childId);
+  deleteItem: async ({ id, itemId }) => {
+    return deleteTodo(id, itemId);
   },
 });
 
 const markTodoAsDoneRequest = createRequest(todoDomain, 'markTodoAsDone', {
-  onReducerSucceeded: (state, { payload: { id, childId } }) => {
-    return removeBySortKey(state, ['data', id, 'items'], childId);
+  onReducerSucceeded: (state, { payload: { id, itemId } }) => {
+    return removeBySortKey(state, ['data', id, 'items'], itemId);
   },
   preRequest: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);
@@ -91,8 +91,8 @@ const markTodoAsDoneRequest = createRequest(todoDomain, 'markTodoAsDone', {
 
     return { continueCall: true, result: friend };
   },
-  request: async ({ id, childId }, friend) => {
-    return markTodoAsDone(id, childId, friend.decryptedPassword);
+  request: async ({ id, itemId }, friend) => {
+    return markTodoAsDone(id, itemId, friend.decryptedPassword);
   },
 });
 
@@ -109,8 +109,8 @@ const markTodoAsUndoneRequest = createRequest(todoDomain, 'markTodoAsUndone', {
 
     return { continueCall: true, result: friend };
   },
-  request: async ({ id, childId }, friend) => {
-    return markTodoAsUndone(id, childId, friend.decryptedPassword);
+  request: async ({ id, itemId }, friend) => {
+    return markTodoAsUndone(id, itemId, friend.decryptedPassword);
   },
 });
 

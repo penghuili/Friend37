@@ -48,7 +48,7 @@ function Activities({
                     label: 'Delete',
                     onClick: () => {
                       setDeleteId(activity.sortKey);
-                      onDelete({ id: friendId, childId: activity.sortKey });
+                      onDelete({ id: friendId, itemId: activity.sortKey });
                     },
                     margin: '0.25rem 0',
                     color: 'status-critical',

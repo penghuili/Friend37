@@ -38,29 +38,29 @@ const { actions, selectors, reducer, saga } = createGeneralStore(friendDomain, {
   fetchItems: async () => {
     return fetchFriends();
   },
-  fetchItem: async ({ childId }) => {
-    return fetchFriend(childId);
+  fetchItem: async ({ itemId }) => {
+    return fetchFriend(itemId);
   },
   createItem: async ({ name, summary, email, phone, birthday }) => {
     return createFriend({ name, summary, email, phone, birthday });
   },
-  preUpdateItem: function* ({ childId }) {
-    const friend = yield call(makeSureFriendIsFetched, childId);
+  preUpdateItem: function* ({ itemId }) {
+    const friend = yield call(makeSureFriendIsFetched, itemId);
     if (!friend) {
       return { continueCall: false };
     }
 
     return { continueCall: true, result: friend };
   },
-  updateItem: async ({ childId, name, summary, email, phone, birthday, position }, friend) => {
+  updateItem: async ({ itemId, name, summary, email, phone, birthday, position }, friend) => {
     return updateFriend(
-      childId,
+      itemId,
       { name, summary, email, phone, birthday, position },
       friend.decryptedPassword
     );
   },
-  deleteItem: async ({ childId }) => {
-    return deleteFriend(childId);
+  deleteItem: async ({ itemId }) => {
+    return deleteFriend(itemId);
   },
 });
 
@@ -68,7 +68,7 @@ const setTabType = `${friendDomain}/setTab`;
 const customReducer = (state = {}, action) => {
   switch (action.type) {
     case setTabType:
-      return updateBySortKey(state, ['data', defaultId, 'items'], action.payload.childId, {
+      return updateBySortKey(state, ['data', defaultId, 'items'], action.payload.itemId, {
         tab: action.payload.tab,
       });
     default:
@@ -83,7 +83,7 @@ export const friendActions = {
   updateRequested: actions.updateItem.requested.action,
   deleteRequested: actions.deleteItem.requested.action,
   setTab: (friendId, tab) => {
-    return { type: setTabType, payload: { childId: friendId, tab } };
+    return { type: setTabType, payload: { itemId: friendId, tab } };
   },
 };
 

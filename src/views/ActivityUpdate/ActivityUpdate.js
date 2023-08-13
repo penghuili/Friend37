@@ -22,7 +22,7 @@ function ActivityUpdate({
   useListener(activity?.note, value => setNote(value || ''));
 
   useEffectOnce(() => {
-    onFetch({ id: friendId, childId: activityId });
+    onFetch({ id: friendId, itemId: activityId });
   });
 
   return (
@@ -39,7 +39,7 @@ function ActivityUpdate({
             <Button
               label="Update activity"
               onClick={() => {
-                onUpdate({ id: friendId, childId: activityId, note, goBack: true });
+                onUpdate({ id: friendId, itemId: activityId, note, goBack: true });
               }}
               disabled={!note || isLoading || isUpdating}
             />

@@ -19,7 +19,7 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, isUpdating, onUpdate, o
   useListener(todo?.date, value => setDate(value ? new Date(value) : null));
 
   useEffectOnce(() => {
-    onFetch({ id: friendId, childId: todoId });
+    onFetch({ id: friendId, itemId: todoId });
   });
 
   return (
@@ -39,7 +39,7 @@ function TodoUpdate({ friendId, todoId, todo, isLoading, isUpdating, onUpdate, o
           onClick={() => {
             onUpdate({
               id: friendId,
-              childId: todoId,
+              itemId: todoId,
               title,
               note,
               date: date ? date.getTime() : null,

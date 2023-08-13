@@ -46,7 +46,7 @@ function FriendDetails({
                   },
                   {
                     label: 'Delete',
-                    onClick: () => onDelete({ childId: friend.sortKey, goBack: true }),
+                    onClick: () => onDelete({ itemId: friend.sortKey, goBack: true }),
                     margin: '0.25rem 0',
                     color: 'status-critical',
                   },
