@@ -46,7 +46,6 @@ function FriendUpdate({ friendId, friend, isLoading, onUpdate, onFetch }) {
         <Button
           label="Update friend"
           onClick={() => {
-            console.log('friendId', friendId)
             onUpdate({
               itemId: friendId,
               name,

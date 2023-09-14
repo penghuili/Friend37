@@ -1,5 +1,6 @@
 import { call } from 'redux-saga/effects';
 
+import { prepend, removeBySortKey, safeGet } from '../../shared/js/object';
 import {
   createDataSelectors,
   createRequest,
@@ -7,14 +8,13 @@ import {
   updateItems,
 } from '../../shared/react/store/storeHelpers';
 import { makeSureFriendIsFetched } from '../friend/friendStore';
-import { prepend, removeBySortKey, safeGet } from '../helper/object';
 import { todoActions } from '../todo/todoStore';
 import { fetchDoneTodos } from './doneTodoNetwork';
 
 export const doneTodoDomain = 'doneTodo';
 
 const { actions, selectors, reducer, saga } = createRequest(doneTodoDomain, 'fetchDoneTodos', {
-  onReducerSucceeded: (state, payload) => updateItems(doneTodoDomain, state, payload),
+  onReducerSucceeded: (state, payload) => updateItems(state, payload),
   preRequest: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);
     if (!friend) {

@@ -6,7 +6,6 @@ import {
   defaultId,
   mergeReducers,
 } from '../../shared/react/store/storeHelpers';
-import { updateBySortKey } from '../helper/object';
 import {
   createFriend,
   deleteFriend,
@@ -14,6 +13,7 @@ import {
   fetchFriends,
   updateFriend,
 } from './friendNetwork';
+import { updateBySortKey } from '../../shared/js/object';
 
 export const friendDomain = 'friend';
 
