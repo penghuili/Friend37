@@ -1,7 +1,6 @@
 import { call, select } from 'redux-saga/effects';
 
-import { makeSureFriendIsFetched } from '../friend/friendStore';
-import { prepend, removeBySortKey, safeGet } from '../helper/object';
+import { prepend, removeBySortKey, safeGet } from '../../shared/js/object';
 import {
   createDataSelectors,
   createGeneralStore,
@@ -9,6 +8,7 @@ import {
   mergeReducers,
   mergeSagas,
 } from '../../shared/react/store/storeHelpers';
+import { makeSureFriendIsFetched } from '../friend/friendStore';
 import {
   createTodo,
   deleteTodo,
