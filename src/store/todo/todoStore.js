@@ -1,5 +1,4 @@
 import { call, select } from 'redux-saga/effects';
-
 import { prepend, removeBySortKey, safeGet } from '../../shared/js/object';
 import {
   createDataSelectors,
@@ -81,7 +80,7 @@ const { actions, selectors, reducer, saga } = createGeneralStore(todoDomain, {
 
 const markTodoAsDoneRequest = createRequest(todoDomain, 'markTodoAsDone', {
   onReducerSucceeded: (state, { payload: { id, itemId } }) => {
-    return removeBySortKey(state, ['data', id, 'items'], itemId);
+    return removeBySortKey(state, [id, 'data', 'items'], itemId);
   },
   preRequest: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);
@@ -98,8 +97,8 @@ const markTodoAsDoneRequest = createRequest(todoDomain, 'markTodoAsDone', {
 
 const markTodoAsUndoneRequest = createRequest(todoDomain, 'markTodoAsUndone', {
   onReducerSucceeded: (state, { data, payload: { id } }) => {
-    const isLoaded = safeGet(state, ['fetchItems', id, 'isSuccessful']);
-    return isLoaded ? prepend(state, ['data', id, 'items'], data) : state;
+    const isLoaded = safeGet(state, [id, 'fetchItems', 'isSuccessful']);
+    return isLoaded ? prepend(state, [id, 'data', 'items'], data) : state;
   },
   preRequest: function* ({ id }) {
     const friend = yield call(makeSureFriendIsFetched, id);

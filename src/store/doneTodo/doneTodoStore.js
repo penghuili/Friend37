@@ -1,5 +1,4 @@
 import { call } from 'redux-saga/effects';
-
 import { prepend, removeBySortKey, safeGet } from '../../shared/js/object';
 import {
   createDataSelectors,
@@ -35,20 +34,20 @@ function customReducer(state, action) {
         data,
         payload: { id },
       } = action.payload;
-      const isLoaded = safeGet(state, ['fetchDoneTodos', id, 'isSuccessful']);
-      return isLoaded ? prepend(state, ['data', id, 'items'], data) : state;
+      const isLoaded = safeGet(state, [id, 'fetchDoneTodos', 'isSuccessful']);
+      return isLoaded ? prepend(state, [id, 'data', 'items'], data) : state;
     }
     case todoActions.markTodoAsUndone.succeeded.type: {
       const {
         payload: { id, itemId },
       } = action.payload;
-      return removeBySortKey(state, ['data', id, 'items'], itemId);
+      return removeBySortKey(state, [id, 'data', 'items'], itemId);
     }
     case todoActions.deleteItem.succeeded.type: {
       const {
         payload: { id, itemId },
       } = action.payload;
-      return removeBySortKey(state, ['data', id, 'items'], itemId);
+      return removeBySortKey(state, [id, 'data', 'items'], itemId);
     }
     default:
       return state;

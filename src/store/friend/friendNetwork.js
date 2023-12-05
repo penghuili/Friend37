@@ -1,13 +1,13 @@
-import apps from '../../shared/js/apps';
-import asyncForEach from '../../shared/js/asyncForEach';
+import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
+import { apps } from '../../shared/js/apps';
+import { asyncForEach } from '../../shared/js/asyncForEach';
 import {
   decryptMessage,
   decryptMessageSymmetric,
   encryptMessage,
   encryptMessageSymmetric,
 } from '../../shared/js/encryption';
-import generatePassword from '../../shared/js/generatePassword';
-import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
+import { generatePassword } from '../../shared/js/generatePassword';
 import HTTP from '../../shared/react/HTTP';
 
 export async function fetchFriends() {

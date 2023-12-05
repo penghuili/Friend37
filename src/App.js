@@ -1,18 +1,17 @@
 import React from 'react';
 import { Provider as StoreProvider, useDispatch } from 'react-redux';
 import { useLocation } from 'wouter';
-
 import Pitch from './components/Pitch';
 import Router from './router';
-import apps from './shared/js/apps';
+import { apps } from './shared/js/apps';
 import ContentWrapper from './shared/react-pure/ContentWrapper';
-import createTheme from './shared/react-pure/createTheme';
 import Divider from './shared/react-pure/Divider';
 import Spacer from './shared/react-pure/Spacer';
+import createTheme from './shared/react-pure/createTheme';
 import AppContainer from './shared/react/AppContainer';
+import Toast from './shared/react/Toast';
 import { HooksOutsieWrapper, setHook } from './shared/react/hooksOutside';
 import initShared from './shared/react/initShared';
-import Toast from './shared/react/Toast';
 import store from './store';
 
 initShared({ logo: `${process.env.REACT_APP_ASSETS_FOR_CODE}/logo.png`, app: apps.friend37.name });

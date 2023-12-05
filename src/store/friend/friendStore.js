@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects';
-
+import { updateBySortKey } from '../../shared/js/object';
 import {
   createDataSelectors,
   createGeneralStore,
@@ -13,7 +13,6 @@ import {
   fetchFriends,
   updateFriend,
 } from './friendNetwork';
-import { updateBySortKey } from '../../shared/js/object';
 
 export const friendDomain = 'friend';
 
@@ -68,7 +67,7 @@ const setTabType = `${friendDomain}/setTab`;
 const customReducer = (state = {}, action) => {
   switch (action.type) {
     case setTabType:
-      return updateBySortKey(state, ['data', defaultId, 'items'], action.payload.itemId, {
+      return updateBySortKey(state, [defaultId, 'data', 'items'], action.payload.itemId, {
         tab: action.payload.tab,
       });
     default:

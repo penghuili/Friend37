@@ -1,5 +1,5 @@
-import apps from '../../shared/js/apps';
-import asyncForEach from '../../shared/js/asyncForEach';
+import { apps } from '../../shared/js/apps';
+import { asyncForEach } from '../../shared/js/asyncForEach';
 import HTTP from '../../shared/react/HTTP';
 import { decryptTodoContent } from '../todo/todoNetwork';
 
